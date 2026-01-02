@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERMINAL CRÍTICO | SISTEMA 666</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Outfit:wght@200;400;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --blood: #ff0000;
+            --dark-glass: rgba(10, 10, 10, 0.95);
+            --gold: #d4af37;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at center, #1a0000 0%, #000 100%);
+        }
+
+        #canvas { position: fixed; top:0; left:0; z-index: -1; }
+
+        /* JUMPSCARE IAN */
+        #jumpscare {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #000;
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        #jumpscare img { 
+            width: 110%; height: 110%; object-fit: cover; 
+            filter: contrast(200%) brightness(0.8);
+            animation: tremor 0.04s infinite; 
+        }
+
+        @keyframes tremor { 
+            0%{transform: translate(5px, 5px) scale(1.05)} 
+            50%{transform: translate(-10px, -10px) scale(1.1)} 
+            100%{transform: translate(5px, -5px) scale(1.05)} 
+        }
+
+        /* Login */
+        #login { height: 100vh; display: flex; justify-content: center; align-items: center; background: url('https://media.giphy.com/media/oEI9uWUeez9ZK/giphy.gif') center/cover; background-blend-mode: overlay; }
+        .login-card { background: var(--dark-glass); backdrop-filter: blur(20px); padding: 50px; border-radius: 40px; border: 1px solid rgba(255, 0, 0, 0.3); text-align: center; }
+
+        #site { display: none; }
+        header { padding: 80px 0; text-align: center; }
+        header h1 { font-family: 'Cinzel', serif; font-size: 5rem; color: var(--blood); margin: 0; text-shadow: 0 0 30px var(--blood); }
+
+        .container { max-width: 1400px; margin: auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+        .premium-card {
+            background: var(--dark-glass);
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.5s;
+            cursor: pointer;
+        }
+        .premium-card:hover { border-color: var(--blood); transform: translateY(-10px); }
+        .premium-card img { width: 100%; height: 350px; object-fit: cover; filter: grayscale(1); }
+        .premium-card:hover img { filter: grayscale(0); }
+
+        .sidao-hero {
+            background: linear-gradient(180deg, rgba(255,0,0,0.1), transparent);
+            border-radius: 50px;
+            padding: 60px;
+            text-align: center;
+            margin-bottom: 50px;
+            border: 1px solid rgba(255,0,0,0.2);
+        }
+        .counter-val { font-size: 6rem; font-weight: 900; color: var(--blood); }
+
+        .zoeira-engine { background: rgba(20,20,20,0.8); padding: 40px; border-radius: 30px; text-align: center; margin-top: 50px; border: 1px solid var(--blood); }
+        #texto-infinito { font-size: 1.8rem; color: #fff; margin-top: 20px; font-weight: 300; }
+
+        .btn-blood { background: var(--blood); color: white; border:none; padding: 15px 30px; border-radius: 15px; font-weight: 900; cursor: pointer; }
+        input { padding: 15px; border-radius: 15px; border: none; text-align: center; margin-bottom: 20px; width: 250px; background: #222; color: #fff; }
+
+        .maycon-card { border: 2px solid var(--gold) !important; box-shadow: 0 0 40px rgba(212, 175, 55, 0.3); }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div id="jumpscare">
+        <img src="https://images.tcdn.com.br/img/img_prod/1126742/mascara_terror_jeff_the_killer_creepy_pasta_halloween_1653_1_8648e3e4881f185790089a81f33221e0.jpg">
+        <audio id="grito" src="https://www.myinstants.com/media/sounds/screamer_pB6R0n7.mp3"></audio>
+    </div>
+
+    <div id="login">
+        <div class="login-card">
+            <h2 style="font-family:'Cinzel'; color: var(--blood);">CONTROLE DE ACESSO</h2>
+            <input type="password" id="senha" placeholder="Token">
+            <br>
+            <button class="btn-blood" onclick="entrar()">LIBERAR TERMINAL</button>
+        </div>
+    </div>
+
+    <div id="site">
+        <header>
+            <h1>THE ABYSS</h1>
+            <p style="letter-spacing: 10px; color: var(--gold);">SANTUÁRIO DO MAYCON</p>
+        </header>
+
+        <div class="container">
+            <section class="sidao-hero">
+                <h2 style="font-family:'Cinzel';">ORIGEM DO GADO: SIDÃO</h2>
+                <div class="counter-val" id="chifre-count">0</div>
+                <p>CHIFRES GERADOS</p>
+                <button class="btn-blood" onclick="tocarBoi()">INVOCAR MUUU</button>
+                <button class="btn-blood" style="background:#000" onclick="pararBoi()">SILENCIAR</button>
+            </section>
+
+            <div class="grid">
+                <div class="premium-card maycon-card" onclick="alert('Maycon diz: Amo vocês amigos! ❤️ (Ele é o único que se salva)')">
+                    <img src="https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=800">
+                    <div style="padding:20px"><h3 style="color:var(--gold)">MAYCON</h3><p>Status: Sagrado e Bonito</p></div>
+                </div>
+
+                <div class="premium-card" onclick="triggerJumpscare()">
+                    <img src="https://robohash.org/ian.png?set=set2">
+                    <div style="padding:20px"><h3>IAN</h3><p>Status: PERIGO (NÃO CLIQUE)</p></div>
+                </div>
+
+                <div class="premium-card" onclick="document.getElementById('risada').play()">
+                    <img src="https://robohash.org/mayck.png?set=set2">
+                    <div style="padding:20px"><h3>MAYCK</h3><p>Status: Riso Incontrolável <br><b>[CLIQUE PARA OUVIR]</b></p></div>
+                </div>
+
+                <div class="premium-card" onclick="document.getElementById('som-namoro').play()">
+                    <img src="https://robohash.org/matheus.png?set=set2">
+                    <div style="padding:20px"><h3>MATHEUS</h3><p>Status: Rejeitado pela Alyce</p></div>
+                </div>
+
+                <div class="premium-card">
+                    <img src="https://robohash.org/angelo.png?set=set2">
+                    <div style="padding:20px"><h3>ÂNGELO</h3><p>Status: Nariz Detectado por Radar</p></div>
+                </div>
+
+                <div class="premium-card">
+                    <img src="https://robohash.org/daniel.png?set=set2">
+                    <div style="padding:20px"><h3>DANIEL</h3><p>Status: Em risco de voar</p></div>
+                </div>
+            </div>
+
+            <section class="zoeira-engine">
+                <h3 style="font-family:'Cinzel'; color: var(--blood);">TERMINAL DE HUMILHAÇÃO</h3>
+                <div id="texto-infinito">Pronto para execução...</div>
+                <br>
+                <button class="btn-blood" onclick="gerarZoeira()">DISPARAR ZOEIRA</button>
+            </section>
+        </div>
+    </div>
+
+    <audio id="som-namoro" src="https://www.myinstants.com/media/sounds/cavalo-rodrigo-faro.mp3"></audio>
+    <audio id="som-boi" src="https://www.myinstants.com/media/sounds/moo.mp3"></audio>
+    <audio id="risada" src="https://www.myinstants.com/media/sounds/risada-do-chaves.mp3"></audio>
+
+    <script>
+        const SENHA = "sem limites";
+        let c = 0;
+
+        function entrar() {
+            if(document.getElementById("senha").value.toLowerCase() === SENHA) {
+                document.getElementById("login").style.display = "none";
+                document.getElementById("site").style.display = "block";
+                setInterval(() => { c += 66; document.getElementById("chifre-count").innerText = c.toLocaleString(); }, 100);
+            }
+        }
+
+        function triggerJumpscare() {
+            document.getElementById("jumpscare").style.display = "flex";
+            document.getElementById("grito").play();
+            setTimeout(() => { document.getElementById("jumpscare").style.display = "none"; }, 1300);
+        }
+
+        function tocarBoi() { document.getElementById("som-boi").loop = true; document.getElementById("som-boi").play(); }
+        function pararBoi() { document.getElementById("som-boi").pause(); }
+
+        const ofensas = [
+            "O Ângelo foi mentir e o nariz dele quebrou a barreira do som.",
+            "O Sidão não precisa de rádio, ele capta o sinal nos chifres.",
+            "Matheus tentou algo com a Alyce e recebeu um miau do Sidão.",
+            "Daniel foi usar o ventilador e parou no outro bairro.",
+            "Ian sumiu, mas o nariz do Ângelo ainda está bloqueando a visão da rua.",
+            "O Mayck riu e o Daniel quase foi levado pela ventania.",
+            "O nariz do Ângelo tem o seu próprio CEP.",
+            "Matheus mandou mensagem pra Alyce e quem visualizou foi o Sidão.",
+            "Daniel foi se pesar e a balança marcou 'por favor, suba na balança'.",
+            "O Mayck começou a rir da magreza do Daniel e o Chaves apareceu.",
+            "Sidão comprou um boné, mas teve que fazer dois furos extras.",
+            "O nariz do Ângelo é a maior construção civil do grupo."
+        ];
+
+        function gerarZoeira() {
+            document.getElementById("texto-infinito").innerHTML = `<span style="color:red">></span> ${ofensas[Math.floor(Math.random()*ofensas.length)]}`;
+            document.getElementById("risada").play();
+        }
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let p = Array(120).fill().map(() => ({x: Math.random()*canvas.width, y: Math.random()*canvas.height, v: Math.random()*1.5 + 0.5}));
+        function anim() { 
+            ctx.clearRect(0,0,canvas.width, canvas.height); 
+            ctx.fillStyle = 'rgba(255,0,0,0.15)'; 
+            p.forEach(i => { ctx.beginPath(); ctx.arc(i.x, i.y, 1.2, 0, 7); ctx.fill(); i.y += i.v; if(i.y > canvas.height) i.y = 0; }); 
+            requestAnimationFrame(anim); 
+        }
+        anim();
+    </script>
+</body>
+</html>
